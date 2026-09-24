@@ -1,21 +1,30 @@
-numArr = [2, 4, 6];
+numArr = [2, , 4, 6];
 
-if (!Array.prototype.myArr){
-    Array.prototype.myArr = function (callBack){
-        if(typeof callBack !== 'function'){
+if (!Array.prototype.myMap){
+    Array.prototype.myMap = function (callBack){
+        
+        //1. callback must be a function
+        if(typeof callBack !== 'function'){ 
             throw new TypeError('callback must be a function');
         }
         
-        const result = [];
+        // 2. Result preserves the source array's length
+        const result = new Array(this.length);
 
-        for(let i=0; i < this.length; i++){
-           const sqrNum = callBack(this[i], i, this);
-           result.push(sqrNum);
+        for(let i=0; i < this.length; i++){ 
+            
+            // 3. Skip missing indexes in sparse arrays
+            if(i in this){  
+                result[i] = callBack(this[i], i, this);
+            }
+           
         };
         return result;
 
     };
-}
+};
 
 
-numArr.myArr((num) => console.log(num*num));
+const result = numArr.myMap(value => value * 2);
+console.log(result);
+

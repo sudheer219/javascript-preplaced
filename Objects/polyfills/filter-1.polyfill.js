@@ -14,7 +14,7 @@ if(!Array.prototype.myFilter){
             if(shouldKeep){
                 result.push(this[i]);
             }
-        }
+        };
 
         return result;
     };
